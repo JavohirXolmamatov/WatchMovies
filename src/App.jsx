@@ -22,7 +22,7 @@ function App() {
           Component: MovieList,
         },
         {
-          path: `movies/:id`,
+          path: `movie/:id`,
           Component: MovieDetails,
         },
         {},
