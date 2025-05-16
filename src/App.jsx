@@ -2,9 +2,9 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import ErrorPages from "./components/ErrorPages";
-import MovieList from "./features/movie/MovieList";
 import MovieDetails from "./features/movie/MovieDetails";
 import { Dashboard } from "./features";
+import PopularList from "./features/movie/PopularList";
 
 function App() {
   const routes = createBrowserRouter([
@@ -18,8 +18,12 @@ function App() {
           Component: Dashboard,
         },
         {
-          path: "movies",
-          Component: MovieList,
+          path: "movie",
+          Component: PopularList,
+        },
+        {
+          path: "movie/now-playing",
+          Component: PopularList,
         },
         {
           path: `movie/:id`,

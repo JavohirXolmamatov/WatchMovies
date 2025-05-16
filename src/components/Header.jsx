@@ -4,27 +4,51 @@ import { IoMdSearch } from "react-icons/io";
 
 function Header() {
   return (
-    <div className="w-full h-[100px] text-white flex flex-col fixed top-0 z-99">
+    <div className="w-full h-[110px] text-white flex flex-col fixed top-0 z-99">
       {/* navbar */}
-      <nav className="w-full h-[60px] bg-[#032541] ">
+      <nav className="w-full h-[70px] bg-[#032541] ">
         <div className="w-[80%] h-full mx-auto flex justify-between items-center">
           <div className="flex items-center gap-8">
+            <div>
+              <NavLink
+                to={"/"}
+                className="text-4xl font-bold"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle farthest-corner at 50.3% 55.8%, rgba(239,0,0,1) 0.8%, rgba(93,17,17,1) 100.2%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                }}
+              >
+                MovieWatch
+              </NavLink>
+            </div>
             <div className="relative group inline-block">
               <button className="px-0 py-2 font-medium hover:text-amber-500">
-                Filmlar
+                Movies
               </button>
 
               {/* Dropdown menyu */}
-              <div className="pointer-events-none absolute left-0 m-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 z-50">
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Frontend
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Backend
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Design
-                </a>
+              <div className="pointer-events-none overflow-hidden absolute left-0 m-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                <NavLink
+                  to={"/movie"}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Popular
+                </NavLink>
+                <NavLink
+                  to={"/movie/now-playing"}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Now Playing
+                </NavLink>
+                <NavLink className="block px-4 py-2 hover:bg-gray-100">
+                  upcoming
+                </NavLink>
+                <NavLink className="block px-4 py-2 hover:bg-gray-100">
+                  Top Rated
+                </NavLink>
               </div>
             </div>
 
