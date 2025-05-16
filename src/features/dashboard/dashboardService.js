@@ -19,3 +19,14 @@ export const getPopularTv = async (active = "day", page = "3") => {
   });
   return response?.data;
 };
+
+export const getDiscoverMovie = async (page = "3") => {
+  const response = await tmdb.get(`discover/movie`, {
+    params: {
+      page: page,
+      include_adult: "false",
+      include_video: "false",
+    },
+  });
+  return response?.data;
+};

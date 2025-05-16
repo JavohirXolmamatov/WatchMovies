@@ -3,16 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   trendingIsLoading: false,
   tvIsLoading: false,
+  discoverLoading: false,
   trending: [],
   tv: [],
+  discover: [],
   trendingError: null,
   tvError: null,
+  discoverError: null,
 };
 
 const dashboardSlice = createSlice({
   name: "Trending",
   initialState,
   reducers: {
+    // Trending
     trendingStart: (state) => {
       state.trendingIsLoading = true;
     },
@@ -24,6 +28,8 @@ const dashboardSlice = createSlice({
       state.trendingIsLoading = false;
       state.trendingError = action.payload;
     },
+
+    // TV
     tvStart: (state) => {
       state.tvIsLoading = true;
     },
@@ -35,6 +41,19 @@ const dashboardSlice = createSlice({
       state.tvIsLoading = false;
       state.tvError = action.payload;
     },
+
+    // Discover
+    discoverStart: (state) => {
+      state.discoverLoading = true;
+    },
+    discoverSuccess: (state, action) => {
+      state.discoverLoading = false;
+      state.discover = action.payload;
+    },
+    discoverFailure: (state, action) => {
+      state.discoverLoading = false;
+      state.discoverError = action.payload;
+    },
   },
 });
 
@@ -45,5 +64,8 @@ export const {
   tvSuccess,
   tvStart,
   tvFailure,
+  discoverStart,
+  discoverSuccess,
+  discoverFailure,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

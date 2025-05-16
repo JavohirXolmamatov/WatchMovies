@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 function MainLayout() {
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <Header />
       <Outlet />
       <Footer />

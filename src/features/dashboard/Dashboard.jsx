@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getPopularMovies, getPopularTv } from "./dashboardService";
+import {
+  getDiscoverMovie,
+  getPopularMovies,
+  getPopularTv,
+} from "./dashboardService";
 import { NavLink } from "react-router-dom";
 import { kinoBanner2 } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  discoverFailure,
+  discoverStart,
+  discoverSuccess,
   trendingFailure,
   trendingStart,
   trendingSuccess,
@@ -12,6 +19,15 @@ import {
   tvSuccess,
 } from "./dashboardSlice";
 import Loader from "../../components/Loader";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
+// import required modules
+import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
 
 function Dashboard() {
   const [activeTrending, setActiveTrending] = useState("day");
@@ -21,6 +37,9 @@ function Dashboard() {
     (state) => state.trending
   );
   const { tvIsLoading, tv } = useSelector((state) => state.trending);
+  const { discoverIsLoading, discover } = useSelector(
+    (state) => state.trending
+  );
 
   // Trending
   const getTrending = async () => {
@@ -46,6 +65,18 @@ function Dashboard() {
     }
   };
 
+  //Discover movie
+  const getDiscoverMovies = async () => {
+    dispatch(discoverStart());
+    try {
+      const res = await getDiscoverMovie();
+      dispatch(discoverSuccess(res?.results));
+    } catch (error) {
+      console.log(error);
+      dispatch(discoverFailure(error?.message));
+    }
+  };
+
   useEffect(() => {
     getTrending(); // faqat activeTrending o‘zgarganda
   }, [activeTrending]);
@@ -54,13 +85,19 @@ function Dashboard() {
     getTv(); // faqat activeTv o‘zgarganda
   }, [activeTv]);
 
+  useEffect(() => {
+    getDiscoverMovies(); // faqat Discover o‘zgarganda
+  }, []);
+
   return (
     <div className="w-full mt-[100px]">
+      {/* top header */}
       <section className="relative w-full h-[350px] bg-[#032541]">
         <img
           src={kinoBanner2}
           alt={kinoBanner2}
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute top-0 left-0 h-full w-full  text-white">
           <div className="w-[80%] h-full mx-auto py-10 flex flex-col justify-center items-start gap-2">
@@ -128,6 +165,7 @@ function Dashboard() {
                       src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.poster_path}`}
                       alt={item?.original_title}
                       className="w-full h-[250px] rounded-md object-cover"
+                      loading="lazy"
                     />
                   </NavLink>
                   <div
@@ -156,6 +194,48 @@ function Dashboard() {
             )}
           </div>
         </div>
+      </section>
+
+      {/* Swiper */}
+      <section className="w-8/10 mx-auto py-10 overflow-hidden rounded-2xl">
+        <Swiper
+          effect="coverflow"
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={4} // ✅ Ekranda 3 ta slayd ko‘rinadi
+          loop={true}
+          autoplay={{
+            delay: 2500, // ✅ 2.5 soniyada bir
+            disableOnInteraction: false,
+          }}
+          coverflowEffect={{
+            rotate: 30,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={{ clickable: true }}
+          modules={[EffectCoverflow, Pagination, Autoplay]} // ✅ Autoplay qo‘shildi
+          className="mySwiper"
+        >
+          {discoverIsLoading ? (
+            <div className="w-[43%] h-full flex justify-center items-center">
+              <Loader />
+            </div>
+          ) : (
+            discover.map((item, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.poster_path}`}
+                  alt={item?.original_title}
+                  className="object-cover"
+                  loading="lazy"
+                />
+              </SwiperSlide>
+            ))
+          )}
+        </Swiper>
       </section>
 
       {/* Tv */}
