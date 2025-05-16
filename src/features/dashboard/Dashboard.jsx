@@ -95,9 +95,9 @@ function Dashboard() {
       <section className="relative w-full h-[350px] bg-[#032541]">
         <img
           src={kinoBanner2}
-          alt={kinoBanner2}
-          className="w-full h-full object-cover"
-          loading="lazy"
+          alt="banner"
+          className="w-full h-full object-cover object-center"
+          loading="eager"
         />
         <div className="absolute top-0 left-0 h-full w-full  text-white">
           <div className="w-[80%] h-full mx-auto py-10 flex flex-col justify-center items-start gap-2">

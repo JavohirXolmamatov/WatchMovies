@@ -7,7 +7,7 @@ function Footer() {
       <nav className="flex w-[90%] mx-auto py-10 justify-center gap-10 font-medium">
         <div className="flex flex-col gap-4">
           <img
-            src="/public/ChatGPT Image May 16, 2025, 07_08_47 PM.png"
+            src="/ChatGPT Image May 16, 2025, 07_08_47 PM.png"
             alt="The Movie Database (TMDB)"
             className="size-28 rounded-2xl ml-auto"
           />
@@ -33,21 +33,21 @@ function Footer() {
               <NavLink to={"/talk"}>Support Forums</NavLink>
             </li>
             <li>
-              <a
+              <NavLink
                 href="/login?to=read_me&amp;redirect_uri=/docs"
                 target="_blank"
               >
                 API Documentation
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
+              <NavLink
                 href="https://status.themoviedb.org/"
                 target="_blank"
                 rel="noopener"
               >
                 System Status
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
