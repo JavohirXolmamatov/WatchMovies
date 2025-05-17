@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import ErrorPages from "./components/ErrorPages";
-import MovieDetails from "./features/movie/MovieDetails";
+import MovieDetails from "./components/MovieDetails";
 import { Dashboard } from "./features";
 import PopularList from "./features/movie/PopularList";
 import NowPlaying from "./features/movie/NowPlaying";
