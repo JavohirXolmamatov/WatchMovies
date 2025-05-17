@@ -43,10 +43,16 @@ function Header() {
                 >
                   Now Playing
                 </NavLink>
-                <NavLink className="block px-4 py-2 hover:bg-gray-100">
+                <NavLink
+                  to={"/movie/upcoming"}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
                   upcoming
                 </NavLink>
-                <NavLink className="block px-4 py-2 hover:bg-gray-100">
+                <NavLink
+                  to={"/movie/top-rated"}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
                   Top Rated
                 </NavLink>
               </div>

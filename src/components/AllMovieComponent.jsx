@@ -3,7 +3,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Loader from "./Loader";
 
-function AllMovieComponent({ items, isLoading, title }) {
+function AllMovieComponent({ items, isLoading, title, handleLoadMore }) {
   return (
     <div className="w-[80%] h-full mx-auto py-10">
       <h1 className="text-2xl font-medium">{title}</h1>
@@ -26,7 +26,7 @@ function AllMovieComponent({ items, isLoading, title }) {
         <main className="w-10/12 h-full  rounded-md shadow-md">
           <div className="flex flex-wrap gap-y-8 gap-x-2 justify-between">
             {isLoading ? (
-              <div className="w-[43%] h-full  justify-center items-center">
+              <div className="w-full h-full flex justify-center items-center">
                 <Loader />
               </div>
             ) : (
@@ -66,6 +66,15 @@ function AllMovieComponent({ items, isLoading, title }) {
                 </div>
               ))
             )}
+            <div className="w-full">
+              <button
+                className="py-2 bg-[#01B4E4] w-full text-xl font-bold text-white rounded-md"
+                onClick={handleLoadMore}
+                // disabled={loading}
+              >
+                Load More
+              </button>
+            </div>
           </div>
         </main>
       </div>
