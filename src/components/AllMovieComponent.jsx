@@ -35,10 +35,12 @@ function AllMovieComponent({ items, isLoading, title, handleLoadMore }) {
                   key={index}
                   className="w-[230px] h-[354px] bg-amber-50 shrink-0 relative hover:scale-105 transition-all duration-200 shadow-xl rounded-xl overflow-hidden"
                 >
-                  <NavLink to={`/movie/${item?.id}`}>
+                  <NavLink
+                    to={`/${item.original_title ? "movie" : "tv"}/${item?.id}`}
+                  >
                     <img
                       src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.poster_path}`}
-                      alt={item?.original_title}
+                      alt={item?.original_title || item?.original_name}
                       className="w-full h-[250px] rounded-md object-cover"
                     />
                   </NavLink>
@@ -58,10 +60,10 @@ function AllMovieComponent({ items, isLoading, title, handleLoadMore }) {
                   <div className="p-4">
                     <NavLink to={`/movie/${item?.id}`}>
                       <h1 className="font-bold hover:text-blue-500 transition-all duration-300">
-                        {item.original_title}
+                        {`${item?.original_title || item?.original_name}`}
                       </h1>
                     </NavLink>
-                    <span>{item?.release_date}</span>
+                    <span>{item?.release_date || item?.first_air_date}</span>
                   </div>
                 </div>
               ))

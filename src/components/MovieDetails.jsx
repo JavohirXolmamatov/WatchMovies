@@ -6,31 +6,34 @@ import Loader from "./Loader";
 import TrailerModal from "./TrailerModal";
 
 function MovieDetails() {
-  const { id } = useParams();
+  const { id, type } = useParams();
+
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const getIdElement = async () => {
     setIsLoading(true);
     try {
-      let res = await tmdb.get(`/movie/${id}`);
+      let res = await tmdb.get(`/${type}/${id}`);
       setIsLoading(false);
       setData(res.data);
     } catch (error) {
+      console.log(error);
+
       // Agar movie topilmasa, tv sifatida sinab ko‘ramiz
-      if (error.response?.status === 404) {
-        try {
-          const res = await tmdb.get(`/tv/${id}`);
-          setData(res.data);
-          setIsLoading(false);
-        } catch (err) {
-          console.log("TV ham topilmadi:", err);
-          setIsLoading(false);
-        }
-      } else {
-        console.log("Movie xatosi:", error);
-        setIsLoading(false);
-      }
+      // if (error.response?.status === 404) {
+      //   try {
+      //     const res = await tmdb.get(`/tv/${id}`);
+      //     setData(res.data);
+      //     setIsLoading(false);
+      //   } catch (err) {
+      //     console.log("TV ham topilmadi:", err);
+      //     setIsLoading(false);
+      //   }
+      // } else {
+      //   console.log("Movie xatosi:", error);
+      //   setIsLoading(false);
+      // }
     }
   };
 
@@ -64,9 +67,11 @@ function MovieDetails() {
             />
             <div className="w-10/12 h-full text-white">
               <div className="flex items-center gap-4">
-                <h1 className="text-4xl font-bold">{data?.title}</h1>
+                <h1 className="text-4xl font-bold">
+                  {data?.title || data?.original_name}
+                </h1>
                 <span className="font-medium text-2xl text-white/70">
-                  ( {data?.release_date} )
+                  ( {data?.release_date || data?.first_air_date} )
                 </span>
               </div>
 
@@ -114,7 +119,7 @@ function MovieDetails() {
 
               {/* Iconlar va trailer */}
               <div>
-                <TrailerModal id={data?.id} />
+                <TrailerModal id={data?.id} type={type} />
               </div>
 
               {/* Nimadir yozuvlar */}

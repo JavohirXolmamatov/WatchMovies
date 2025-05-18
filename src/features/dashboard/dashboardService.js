@@ -20,7 +20,7 @@ export const getPopularTv = async (active = "day", page = "3") => {
   return response?.data;
 };
 
-export const getDiscoverMovie = async (page = "3") => {
+export const getDiscoverMovie = async (page = "6") => {
   const response = await tmdb.get(`discover/movie`, {
     params: {
       page: page,

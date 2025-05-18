@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
 import tmdb from "../service/tmdb";
 
-function TrailerModal({ id }) {
+function TrailerModal({ id, type }) {
   const [videoKey, setVideoKey] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchTrailer = async () => {
-      try {
-        const res = await tmdb.get(
-          `https://api.themoviedb.org/3/movie/${id}/videos`
-        );
-        const trailer = res.data.results.find(
-          (vid) => vid.type === "Trailer" && vid.site === "YouTube"
-        );
-        if (trailer) setVideoKey(trailer.key);
-      } catch (error) {
-        console.error("Video error:", error);
-      }
-    };
+  const fetchTrailer = async () => {
+    try {
+      const res = await tmdb.get(
+        `https://api.themoviedb.org/3/${type}/${id}/videos`
+      );
+      const trailer = res.data.results.find(
+        (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+      );
+      if (trailer) setVideoKey(trailer.key);
+    } catch (error) {
+      console.error("Video error:", error);
+    }
+  };
 
-    fetchTrailer();
-  }, [id]);
+  const handleOpen = async () => {
+    if (!videoKey) {
+      await fetchTrailer();
+    }
+    setIsOpen(true);
+  };
 
   return (
     <div>
       {/* Button */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
       >
         ▶ Watch Trailer

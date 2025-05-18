@@ -41,11 +41,18 @@ function Dashboard() {
     (state) => state.trending
   );
 
+  const [page, setPage] = useState(5);
+
+  const randomPage = () => {
+    const ranPage = Math.floor(Math.random() * 100) + 1; // 1 dan 100 gacha butun son
+    setPage(ranPage);
+  };
+
   // Trending
   const getTrending = async () => {
     dispatch(trendingStart());
     try {
-      const res = await getPopularMovies(activeTrending);
+      const res = await getPopularMovies(activeTrending, page);
       dispatch(trendingSuccess(res?.results));
     } catch (error) {
       console.log(error);
@@ -57,7 +64,7 @@ function Dashboard() {
   const getTv = async () => {
     dispatch(tvStart());
     try {
-      const res = await getPopularTv(activeTv);
+      const res = await getPopularTv(activeTv, page);
       dispatch(tvSuccess(res?.results));
     } catch (error) {
       console.log(error);
@@ -69,7 +76,7 @@ function Dashboard() {
   const getDiscoverMovies = async () => {
     dispatch(discoverStart());
     try {
-      const res = await getDiscoverMovie();
+      const res = await getDiscoverMovie(page);
       dispatch(discoverSuccess(res?.results));
     } catch (error) {
       console.log(error);
@@ -79,14 +86,18 @@ function Dashboard() {
 
   useEffect(() => {
     getTrending(); // faqat activeTrending o‘zgarganda
-  }, [activeTrending]);
+  }, [activeTrending, page]);
 
   useEffect(() => {
     getTv(); // faqat activeTv o‘zgarganda
-  }, [activeTv]);
+  }, [activeTv, page]);
 
   useEffect(() => {
     getDiscoverMovies(); // faqat Discover o‘zgarganda
+  }, [page]);
+
+  useEffect(() => {
+    randomPage();
   }, []);
 
   return (
@@ -275,7 +286,9 @@ function Dashboard() {
                   key={index}
                   className="w-[230px] h-[360px] shrink-0 relative hover:scale-105 transition-all duration-200 shadow-xl rounded-xl overflow-hidden"
                 >
-                  <NavLink to={`/movie/${item?.id}`}>
+                  <NavLink
+                    to={`/${item.first_air_date ? "tv" : "movie"}/${item?.id}`}
+                  >
                     <img
                       src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.poster_path}`}
                       alt={item?.original_name}
@@ -296,9 +309,13 @@ function Dashboard() {
                   </div>
 
                   <div className="p-4">
-                    <NavLink to={`/movie/${item?.id}`}>
+                    <NavLink
+                      to={`/${item?.first_air_date ? "tv" : "movie"}/${
+                        item?.id
+                      }`}
+                    >
                       <h1 className="font-bold hover:text-blue-500 transition-all duration-300">
-                        {item.name}
+                        {item?.name}
                       </h1>
                     </NavLink>
                     <span>{item?.first_air_date}</span>

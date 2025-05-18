@@ -8,6 +8,10 @@ import PopularList from "./features/movie/PopularList";
 import NowPlaying from "./features/movie/NowPlaying";
 import Upcoming from "./features/movie/Upcoming";
 import TopRated from "./features/movie/TopRated";
+import Popular from "./features/tvShow/Popular";
+import AiringToday from "./features/tvShow/AiringToday";
+import OnTv from "./features/tvShow/OnTv";
+import TopRatedTv from "./features/tvShow/TopRatedTv";
 
 function App() {
   const routes = createBrowserRouter([
@@ -37,7 +41,23 @@ function App() {
           Component: TopRated,
         },
         {
-          path: `movie/:id`,
+          path: "tv",
+          Component: Popular,
+        },
+        {
+          path: "tv/airing-today",
+          Component: AiringToday,
+        },
+        {
+          path: "tv/on-tv",
+          Component: OnTv,
+        },
+        {
+          path: "tv/top-rated",
+          Component: TopRatedTv,
+        },
+        {
+          path: `:type/:id`,
           Component: MovieDetails,
         },
         {},
