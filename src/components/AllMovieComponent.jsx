@@ -39,7 +39,9 @@ function AllMovieComponent({ items, isLoading, title, handleLoadMore }) {
                     to={`/${item.original_title ? "movie" : "tv"}/${item?.id}`}
                   >
                     <img
-                      src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.poster_path}`}
+                      src={`https://media.themoviedb.org/t/p/w220_and_h330_face${
+                        item?.poster_path || item?.backdrop_path
+                      }`}
                       alt={item?.original_title || item?.original_name}
                       className="w-full h-[250px] rounded-md object-cover"
                     />

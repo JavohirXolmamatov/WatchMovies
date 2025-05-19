@@ -12,3 +12,10 @@ export const getMovieKeyboard = async (type, id) => {
   const response = await tmdb.get(`/${type}/${id}/keywords`);
   return response?.data;
 };
+
+export const getMovieSearchCollection = async (query, page) => {
+  const response = await tmdb.get(
+    `/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`
+  );
+  return response?.data;
+};

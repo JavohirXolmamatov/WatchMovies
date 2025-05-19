@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   peopleIsLoading: false,
-  //   tvIsLoading: false,
+  searchMovieIsLoading: false,
   //   discoverLoading: false,
   people: {},
-  //   tv: [],
+  searchMovie: [],
   //   discover: [],
   peopleError: null,
-  //   tvError: null,
+  searchMovieError: null,
   //   discoverError: null,
 };
 
@@ -29,17 +29,17 @@ const dashboardSlice = createSlice({
       state.peopleError = action.payload;
     },
 
-    // TV
-    tvStart: (state) => {
-      state.tvIsLoading = true;
+    // searchMovie
+    searchMovieStart: (state) => {
+      state.searchMovieIsLoading = true;
     },
-    tvSuccess: (state, action) => {
-      state.tvIsLoading = false;
-      state.tv = action.payload;
+    searchMovieSuccess: (state, action) => {
+      state.searchMovieIsLoading = false;
+      state.searchMovie = action.payload;
     },
-    tvFailure: (state, action) => {
-      state.tvIsLoading = false;
-      state.tvError = action.payload;
+    searchMovieFailure: (state, action) => {
+      state.searchMovieIsLoading = false;
+      state.searchMovieError = action.payload;
     },
 
     // Discover
@@ -61,9 +61,9 @@ export const {
   peopleStart,
   peopleFailure,
   peopleSuccess,
-  tvSuccess,
-  tvStart,
-  tvFailure,
+  searchMovieSuccess,
+  searchMovieStart,
+  searchMovieFailure,
   discoverStart,
   discoverSuccess,
   discoverFailure,

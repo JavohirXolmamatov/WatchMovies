@@ -4,7 +4,7 @@ import {
   getPopularMovies,
   getPopularTv,
 } from "./dashboardService";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { kinoBanner2 } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -42,6 +42,7 @@ function Dashboard() {
   );
 
   const [page, setPage] = useState(5);
+  const navigate = useNavigate();
 
   const randomPage = () => {
     const ranPage = Math.floor(Math.random() * 100) + 1; // 1 dan 100 gacha butun son
@@ -84,6 +85,15 @@ function Dashboard() {
     }
   };
 
+  // Search
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const value = e.target.search.value;
+    if (value.trim()) {
+      navigate(`/search?q=${encodeURIComponent(value)}`);
+    }
+  };
+
   useEffect(() => {
     getTrending(); // faqat activeTrending o‘zgarganda
   }, [activeTrending, page]);
@@ -117,19 +127,23 @@ function Dashboard() {
               Millionlab filmlar, telekoʻrsatuvlar va kishilar. Hoziroq kash
               eting.
             </p>
-            <label className="w-full flex relative mt-6">
-              <input
-                type="search"
-                className="bg-white py-3 w-full rounded-3xl relative text-black px-6 text-lg outline-none focus:outline-none border-none"
-                placeholder="Film, Teleko'rsatuv, kishi va hk. qidirish..."
-              />
-              <button
-                type="button"
-                className="py-3 bg-green-400 px-8 rounded-3xl absolute right-0 text-lg "
-              >
-                Search
-              </button>
-            </label>
+            <form className="w-full" onSubmit={handleSearch}>
+              <label className="w-full flex relative mt-6">
+                <input
+                  type="text"
+                  name="search"
+                  className="bg-white py-3 w-full rounded-3xl relative text-black px-6 text-lg outline-none focus:outline-none border-none"
+                  placeholder="Film, Teleko'rsatuv, kishi va hk. qidirish..."
+                  required
+                />
+                <button
+                  type="submit"
+                  className="py-3 bg-green-400 px-8 rounded-3xl absolute right-0 text-lg "
+                >
+                  Search
+                </button>
+              </label>
+            </form>
           </div>
         </div>
       </section>

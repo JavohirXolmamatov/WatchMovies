@@ -1,8 +1,19 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 
 function Header() {
+  const navigate = useNavigate();
+
+  // Search
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const value = e.target.search.value;
+    if (value.trim()) {
+      navigate(`/search?q=${encodeURIComponent(value)}`);
+    }
+    e.target.reset();
+  };
+
   return (
     <div className="w-full h-[110px] text-white flex flex-col fixed top-0 z-99">
       {/* navbar */}
@@ -139,11 +150,14 @@ function Header() {
       <div className="w-full h-[40px] text-black bg-white  shadow-md">
         <div className="w-[80%] mx-auto h-full flex items-center">
           <IoMdSearch className="size-6" />
-          <input
-            type="search"
-            placeholder="Film, telekursatuv, kishi va hakazo. qidirish..."
-            className="py-2 w-full text-lg px-4 outline-none focus:outline-none border-none"
-          />
+          <form className="w-full" onSubmit={handleSearch}>
+            <input
+              type="search"
+              name="search"
+              placeholder="Film, telekursatuv, kishi va hakazo. qidirish..."
+              className="py-2 w-full text-lg px-4 outline-none focus:outline-none border-none"
+            />
+          </form>
         </div>
       </div>
     </div>

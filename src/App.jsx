@@ -12,6 +12,7 @@ import Popular from "./features/tvShow/Popular";
 import AiringToday from "./features/tvShow/AiringToday";
 import OnTv from "./features/tvShow/OnTv";
 import TopRatedTv from "./features/tvShow/TopRatedTv";
+import Search from "./components/Search";
 
 function App() {
   const routes = createBrowserRouter([
@@ -59,6 +60,10 @@ function App() {
         {
           path: `:type/:id`,
           Component: MovieDetails,
+        },
+        {
+          path: `/search`,
+          Component: Search,
         },
         {},
       ],
