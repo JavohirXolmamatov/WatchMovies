@@ -1,15 +1,19 @@
-import axios from "axios";
 import { NavLink, useParams } from "react-router-dom";
 import tmdb from "../service/tmdb";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import TrailerModal from "./TrailerModal";
+import { getMovieKeyboard, getMoviePeople } from "./componentsService";
+import { useDispatch, useSelector } from "react-redux";
+import { peopleFailure, peopleStart, peopleSuccess } from "./conponentsSlice";
 
 function MovieDetails() {
+  const dispatch = useDispatch();
   const { id, type } = useParams();
-
   const [data, setData] = useState();
+  const [keyword, setKeywords] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const { peopleIsLoading, people } = useSelector((state) => state.components);
 
   const getIdElement = async () => {
     setIsLoading(true);
@@ -19,26 +23,33 @@ function MovieDetails() {
       setData(res.data);
     } catch (error) {
       console.log(error);
+    }
+  };
 
-      // Agar movie topilmasa, tv sifatida sinab ko‘ramiz
-      // if (error.response?.status === 404) {
-      //   try {
-      //     const res = await tmdb.get(`/tv/${id}`);
-      //     setData(res.data);
-      //     setIsLoading(false);
-      //   } catch (err) {
-      //     console.log("TV ham topilmadi:", err);
-      //     setIsLoading(false);
-      //   }
-      // } else {
-      //   console.log("Movie xatosi:", error);
-      //   setIsLoading(false);
-      // }
+  const getIdElementPeople = async () => {
+    dispatch(peopleStart());
+    try {
+      const res = await getMoviePeople(type, id);
+      dispatch(peopleSuccess(res));
+    } catch (error) {
+      console.log(error);
+      dispatch(peopleFailure());
+    }
+  };
+
+  const getIdKeywords = async () => {
+    try {
+      const res = await getMovieKeyboard(type, id);
+      setKeywords(res?.keywords || res.results);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getIdElement();
+    getIdElementPeople();
+    getIdKeywords();
   }, [id]);
 
   return (
@@ -132,6 +143,89 @@ function MovieDetails() {
           </div>
         </section>
       )}
+
+      {/* People list */}
+      <section className="w-full">
+        <div className="w-4/5 mx-auto flex py-10 bg-white">
+          {/* Left */}
+          <div className="w-9/12">
+            <h1 className="text-xl font-medium mb-4">Top Billed Cast</h1>
+            <div className="w-full flex overflow-scroll gap-4 py-6">
+              {peopleIsLoading ? (
+                <div className="w-full flex items-center justify-center">
+                  <Loader />
+                </div>
+              ) : (
+                people?.cast?.length > 0 &&
+                people.cast.map((item, index) => (
+                  <figure
+                    key={index}
+                    className="w-[150px] flex-shrink-0 shadow-2xl rounded-md"
+                  >
+                    <img
+                      src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item?.profile_path}`}
+                      alt={item?.original_title || item?.original_name}
+                      className="w-[150px] h-[150px] rounded-md object-cover"
+                      loading="lazy"
+                    />
+                    <div className="p-2">
+                      <h1 className=" font-medium mt-2">{item?.name}</h1>
+                      <span>{item?.character}</span>
+                    </div>
+                  </figure>
+                ))
+              )}
+            </div>
+            <div className="my-6">
+              <NavLink to={"/"} className="text-lg font-medium">
+                Full Cast & Crew
+              </NavLink>
+            </div>
+          </div>
+
+          {/* right */}
+          <div className="w-3/12 px-8 flex flex-col gap-3">
+            <div>
+              <h1 className="font-medium">Status</h1>
+              <span className="">{data?.status}</span>
+            </div>
+
+            <div>
+              <h1 className="font-medium">Original Languages</h1>
+              <span className="">
+                {data?.original_language == "en"
+                  ? "English"
+                  : data?.original_language}
+              </span>
+            </div>
+
+            <div>
+              <h1 className="font-medium">Budget</h1>
+              <span className="">${data?.budget ?? "Anonymous"}</span>
+            </div>
+
+            <div>
+              <h1 className="font-medium">Revenue</h1>
+              <span className="">${data?.revenue ?? "Anonymous"}</span>
+            </div>
+
+            {keyword && keyword.length > 0 && (
+              <h1 className="font-medium">Keyword</h1>
+            )}
+            <div className="flex gap-3 flex-wrap">
+              {keyword &&
+                keyword.map((item, index) => (
+                  <span
+                    className="bg-black/10 px-3 rounded-md text-sm"
+                    key={index}
+                  >
+                    {item?.name}
+                  </span>
+                ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   );
 }
