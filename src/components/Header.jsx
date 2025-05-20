@@ -105,21 +105,18 @@ function Header() {
             </div>
 
             <div className="relative group inline-block">
-              {/* <button className="px-0 py-2 font-medium hover:text-amber-500">
+              <button className="px-0 py-2 font-medium hover:text-amber-500">
                 Kishilar
-              </button> */}
+              </button>
 
               {/* Dropdown menyu */}
               <div className="pointer-events-none absolute left-0 m-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 z-50">
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Frontend
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Backend
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Design
-                </a>
+                <NavLink
+                  to={"/person"}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Popular People
+                </NavLink>
               </div>
             </div>
 

@@ -13,6 +13,8 @@ import AiringToday from "./features/tvShow/AiringToday";
 import OnTv from "./features/tvShow/OnTv";
 import TopRatedTv from "./features/tvShow/TopRatedTv";
 import Search from "./components/Search";
+import PopularPeople from "./features/people/PopularPeople";
+import PeopleDetail from "./features/people/PeopleDetail";
 
 function App() {
   const routes = createBrowserRouter([
@@ -62,10 +64,17 @@ function App() {
           Component: MovieDetails,
         },
         {
-          path: `/search`,
+          path: `search`,
           Component: Search,
         },
-        {},
+        {
+          path: "person",
+          Component: PopularPeople,
+        },
+        {
+          path: "person/:id",
+          Component: PeopleDetail,
+        },
       ],
     },
   ]);
